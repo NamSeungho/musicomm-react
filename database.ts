@@ -1,9 +1,7 @@
 import mongodb from 'mongodb';
 import dotenv from 'dotenv';
 
-if (process.env.NODE_ENV !== 'production') {
-    dotenv.config();
-}
+dotenv.config();
 
 const MongoClient = mongodb.MongoClient;
 const client = new MongoClient(process.env.MONGODB_URI, {
