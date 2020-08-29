@@ -1,7 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import next from 'next';
-import { database } from './database';
+import { graphqlHTTP } from 'express-graphql';
+import database from './database';
+import schema from './schema'
+import resolver from './resolver'
 
 const port = parseInt(process.env.PORT, 10) || 2000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -10,14 +13,22 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(async () => {
     const server = express();
-    const db = await database();
 
-    // const music = await db.collection('music').findOne({title: "우리 시작해도 괜찮을까요"});
-    // console.log(music);
+    // Connect Database
+    await database();
 
+    // Get body data in POST request
     server.use(bodyParser.urlencoded({ extended: true }));
     server.use(bodyParser.json());
 
+    // GraphQL
+    server.use('/graphql', graphqlHTTP({
+        schema: schema,
+        rootValue: resolver,
+        graphiql: true
+    }));
+
+    // Route
     server.get('/a', (req: express.Request, res: express.Response) => {
         return app.render(req, res, '/a', req.query);
     });

@@ -8,11 +8,17 @@ const client = new MongoClient(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+let database;
 
-export const database = async () => {
+export default async () => {
+    if (database) {
+        return database;
+    }
+
     if (!client.isConnected()) {
         await client.connect();
     }
 
-    return await client.db(process.env.DB_NAME);
+    database = await client.db(process.env.DB_NAME);
+    return database;
 };
