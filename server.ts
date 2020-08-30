@@ -3,8 +3,9 @@ import bodyParser from 'body-parser';
 import next from 'next';
 import { graphqlHTTP } from 'express-graphql';
 import database from './database';
-import schema from './schema'
-import resolver from './resolver'
+import schema from './schema';
+import resolver from './resolver';
+import session from './session';
 
 const port = parseInt(process.env.PORT, 10) || 2000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -20,6 +21,9 @@ app.prepare().then(async () => {
     // Get body data in POST request
     server.use(bodyParser.urlencoded({ extended: true }));
     server.use(bodyParser.json());
+
+    // Session
+    server.use(session);
 
     // GraphQL
     server.use('/graphql', graphqlHTTP({
