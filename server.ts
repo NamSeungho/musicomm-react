@@ -42,7 +42,19 @@ app.prepare().then(async () => {
     });
 
     server.post('/login', (req: express.Request, res: express.Response) => {
-        req.session.user = 'SESSION TEST';
+        req.session.user = {
+            userid: 'USERID',
+            nickname: 'NICKNAME'
+        };
+
+        res.writeHead(200);
+        res.end(JSON.stringify({code: 0, message: 'success'}));
+    });
+
+    server.post('/logout', (req: express.Request, res: express.Response) => {
+        if (req.session) {
+            req.session.destroy();
+        }
 
         res.writeHead(200);
         res.end(JSON.stringify({code: 0, message: 'success'}));
