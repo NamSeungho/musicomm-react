@@ -5,7 +5,9 @@ interface musicTitle {
 }
 
 export default {
-    music: async ({ title }: musicTitle) => {
+    music: async ({ title }: {
+        title: string
+    }) => {
         const db = await database();
         const query = { title: title };
         const artistLookup = {

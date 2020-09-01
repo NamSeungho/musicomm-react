@@ -41,6 +41,13 @@ app.prepare().then(async () => {
         return app.render(req, res, '/b', req.query);
     });
 
+    server.post('/login', (req: express.Request, res: express.Response) => {
+        req.session.user = 'SESSION TEST';
+
+        res.writeHead(200);
+        res.end(JSON.stringify({code: 0, message: 'success'}));
+    });
+
     server.all('*', (req: express.Request, res: express.Response) => {
         return handle(req, res);
     });
