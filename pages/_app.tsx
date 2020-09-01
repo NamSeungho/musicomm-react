@@ -1,7 +1,7 @@
 import '../styles/global.css'
 
 import { AppProps, AppContext } from 'next/app'
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
 import { createStore } from "redux";
 import reducers from "../reducers";
 import { Provider } from 'react-redux';

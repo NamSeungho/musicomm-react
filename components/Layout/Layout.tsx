@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import HeaderContainer from '../containers/HeaderContainer'
-import * as actions from "../actions";
+import HeaderContainer from '../../containers/HeaderContainer'
+import * as actions from "../../actions";
 
 export default function Layout ({ children, user }) {
     const dispatch = useDispatch();
