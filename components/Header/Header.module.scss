@@ -12,24 +12,37 @@
 .header_logo {
     float: left;
     display: block;
-    font-size: 28px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 600;
     color: #535659;
     letter-spacing: 2px;
     line-height: 55px;
 
     span {
         color: #f361a6;
+        padding: 0 1px;
     }
 }
 
-.header_sign_ul {
+.header_user_wrap {
     float: right;
-    margin-left: 40px;
+    margin: 0 0 0 40px;
+    padding: 0;
     line-height: 55px;
     list-style: none;
 
-    li {
+    a {
+        margin-right: 40px;
+        color: rgba(0, 0, 0, .5);
+        -webkit-transition: all .3s ease-in-out 0s;
+        transition: all .3s ease-in-out 0s;
+
+        &:hover {
+            color: #000000;
+        }
+    }
+
+    button {
         min-width: 115px;
         height: 35px;
         line-height: 34px;

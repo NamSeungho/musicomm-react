@@ -6,13 +6,18 @@ import { createStore } from "redux";
 import reducers from "../reducers";
 import { Provider } from 'react-redux';
 
+export type User = {
+    userId: string;
+    nickname: string;
+    isLoggedIn?: boolean;
+}
 
 // Create Store
 const store = createStore(reducers);
 
 export default function App ({ Component, pageProps, user }: AppProps & {
     user?: {
-        userid: string,
+        userId: string,
         nickname: string
     }
 }) {

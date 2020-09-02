@@ -2,8 +2,9 @@ import styles from './Header.module.scss';
 
 import Link from 'next/link';
 import axios, { AxiosResponse } from 'axios';
+import { User } from '../../pages/_app'
 
-export default function Header({nickname, onSetNickname}) {
+function LoginComponent ({ userId, nickname, isLoggedIn }: User) {
     const login = () => {
         axios.post('/login', {
             id: 'ID',
@@ -23,14 +24,32 @@ export default function Header({nickname, onSetNickname}) {
         });
     };
 
+    const signup = () => {
+        alert('Should implement signup');
+    };
+
+    if (!isLoggedIn) {
+        return (
+            <div className={styles.header_user_wrap}>
+                <button onClick={login}><span>로그인</span></button>
+                <button onClick={signup} className={`${styles.sign_up}`}><span>무료 회원가입</span></button>
+            </div>
+        );
+    } else {
+        return (
+            <div className={styles.header_user_wrap}>
+                <Link href="/profile/[id]" as={`/profile/${userId}`}><a>{nickname}</a></Link>
+                <button onClick={logout}><span>로그아웃</span></button>
+            </div>
+        );
+    }
+}
+
+export default function Header ({ userId, nickname, isLoggedIn }: User) {
     return (
         <div className={styles.header}>
             <Link href="/"><a className={styles.header_logo}>MUSI<span>C</span>OMM</a></Link>
-            {nickname}
-            <ul className={styles.header_sign_ul}>
-                <li onClick={login}><span>로그인</span></li>
-                <li onClick={logout} className={`${styles.sign_up}`}><span>무료 회원가입</span></li>
-            </ul>
+            <LoginComponent userId={userId} nickname={nickname} isLoggedIn={isLoggedIn}/>
         </div>
     )
 }

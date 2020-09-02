@@ -43,7 +43,7 @@ app.prepare().then(async () => {
 
     server.post('/login', (req: express.Request, res: express.Response) => {
         req.session.user = {
-            userid: 'USERID',
+            userId: 'USERID',
             nickname: 'NICKNAME'
         };
 

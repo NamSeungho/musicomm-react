@@ -1,13 +1,24 @@
 import { useDispatch } from 'react-redux';
 import HeaderContainer from '../../containers/HeaderContainer'
 import * as actions from "../../actions";
+import { User } from '../../pages/_app'
 
 export default function Layout ({ children, user }) {
+    const clearUserData = () => {
+        dispatch(actions.setNickname(''));
+        dispatch(actions.setUserId(''));
+    };
+
+    const dispatchUserData = (user: User) => {
+        dispatch(actions.setNickname(user.nickname));
+        dispatch(actions.setUserId(user.userId));
+    };
+
     const dispatch = useDispatch();
     if (user === null) {
-        dispatch(actions.setNickname(''));
+        clearUserData();
     } else if (user) {
-        dispatch(actions.setNickname(user.nickname));
+        dispatchUserData(user);
     }
 
     return (
