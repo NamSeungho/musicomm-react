@@ -1,9 +1,15 @@
+import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 import HeaderContainer from '../../containers/HeaderContainer'
 import * as actions from "../../actions";
 import { User } from '../../pages/_app'
 
-export default function Layout ({ children, user }) {
+type LayoutProps = {
+    children: ReactNode,
+    user: User
+}
+
+export default function Layout ({ children, user }: LayoutProps) {
     const clearUserData = () => {
         dispatch(actions.setNickname(''));
         dispatch(actions.setUserId(''));

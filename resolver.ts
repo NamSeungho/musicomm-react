@@ -1,13 +1,7 @@
 import database from './database';
 
-interface musicTitle {
-    title: string
-}
-
 export default {
-    music: async ({ title }: {
-        title: string
-    }) => {
+    music: async ({ title }: { title: string }) => {
         const db = await database();
         const query = { title: title };
         const artistLookup = {

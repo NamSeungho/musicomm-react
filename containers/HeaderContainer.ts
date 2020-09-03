@@ -1,5 +1,6 @@
 import Header from '../components/Header/Header';
 import * as actions from '../actions';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { States } from '../reducers/';
 
@@ -12,7 +13,7 @@ const mapStateToProps = (state: States) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     onSetNickname: (nickname: string) => {
         dispatch(actions.setNickname(nickname));
     }
