@@ -2,6 +2,8 @@ import styles from './Header.module.scss';
 import Link from 'next/link';
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../../pages/_app'
+import { connect } from 'react-redux';
+import * as actions from '../../actions';
 
 function LoginComponent ({ userId, nickname, isLoggedIn }: User) {
     const login = () => {
@@ -44,11 +46,24 @@ function LoginComponent ({ userId, nickname, isLoggedIn }: User) {
     }
 }
 
-export default function Header ({ userId, nickname, isLoggedIn }: User) {
+function Header ({ userId, nickname, isLoggedIn }: User) {
     return (
-        <div className={styles.header}>
+        <header className={styles.header}>
             <Link href="/"><a className={styles.header_logo}>MUSI<span>C</span>OMM</a></Link>
             <LoginComponent userId={userId} nickname={nickname} isLoggedIn={isLoggedIn}/>
-        </div>
+        </header>
     )
 }
+
+export default connect(
+    state => ({
+        userId: state.userId,
+        nickname: state.nickname,
+        isLoggedIn: !!state.userId
+    }),
+    dispatch => ({
+        onSetNickname: (nickname: string) => {
+            dispatch(actions.setNickname(nickname));
+        }
+    })
+)(Header);

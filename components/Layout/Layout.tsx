@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
-import HeaderContainer from '../../containers/HeaderContainer'
+import Aside from '../Aside/Aside'
+import Header from '../Header/Header'
 import * as actions from "../../actions";
 import { User } from '../../pages/_app'
 
@@ -29,7 +30,8 @@ export default function Layout ({ children, user }: LayoutProps) {
 
     return (
         <div className="application">
-            <HeaderContainer/>
+            <Header/>
+            <Aside/>
             <iframe width="420" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY"/>
             <div className='layout'>{children}</div>
         </div>

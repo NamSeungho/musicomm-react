@@ -1,0 +1,133 @@
+.player_container {
+    position: relative;
+    width: 450px;
+
+    .player {
+        width: 100%;
+        height: 253.125px;
+        line-height: 253.125px;
+        color: #FFFFFF;
+        font-weight: 400;
+        text-align: center;
+        display: block;
+        background-color: #000;
+
+        span {
+            font-size: 20px;
+            display: block;
+        }
+    }
+
+    .player_control_wrap {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        display: block;
+        z-index: 90;
+        opacity: 1;
+        background: rgba(0,0,0,0.75);
+        background: -webkit-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0.9), rgba(0,0,0,0.75), rgba(0,0,0,0.6), rgba(0,0,0,0.45), rgba(0,0,0,0.3), rgba(0,0,0,0)); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0.9), rgba(0,0,0,0.75), rgba(0,0,0,0.6), rgba(0,0,0,0.45), rgba(0,0,0,0.3), rgba(0,0,0,0)); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0.9), rgba(0,0,0,0.75), rgba(0,0,0,0.6), rgba(0,0,0,0.45), rgba(0,0,0,0.3), rgba(0,0,0,0)); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,0.9), rgba(0,0,0,0.75), rgba(0,0,0,0.6), rgba(0,0,0,0.45), rgba(0,0,0,0.3), rgba(0,0,0,0)); /* Standard syntax */
+
+        .player_control_music_title {
+            width: 100%;
+            height: 36px;
+            margin: 0;
+            padding: 10px 5% 4px;
+            line-height: 1;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 400;
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .player_control_music_time {
+            margin: 0;
+            padding: 0 5% 9px 0;
+            line-height: 1;
+            color: #FFFFFF;
+            font-size: 14px;
+            font-weight: 400;
+            text-align: right;
+            letter-spacing: 1px;
+        }
+
+        .player_control_duration_bar {
+            width: 90%;
+            height: 8px;
+            margin: 0 auto;
+            border-radius: 4px;
+            background-color: #FFFFFF;
+            cursor: pointer;
+
+            .player_control_duration_active_bar {
+                width: 0;
+                height: 8px;
+                border-radius: 4px;
+                background-color: #F361DC;
+                cursor: pointer;
+            }
+        }
+
+        .player_control_button {
+            height: 23px;
+            margin-top: 12px;
+        }
+
+        .player_control_play_btn {
+            margin-left: 5%;
+            cursor: pointer;
+        }
+
+        .player_control_prev_next_btn {
+            margin-left: 14px;
+            cursor: pointer;
+        }
+
+        .player_control_repeat_btn {
+            margin-left: 36px;
+            cursor: pointer;
+        }
+
+        .player_control_shuffle_btn {
+            margin-left: 14px;
+            cursor: pointer;
+        }
+
+        .player_control_volume_btn {
+            margin-right: 14px;
+            margin-left: 36px;
+            cursor: pointer;
+        }
+
+        .player_control_large_btn {
+            margin-right: 5%;
+            float: right;
+            cursor: pointer;
+        }
+
+        .player_control_volume_bar {
+            width: 100px;
+            height: 8px;
+            margin: 19px auto 0;
+            border-radius: 4px;
+            vertical-align: top;
+            display: inline-block;
+            background-color: #FFFFFF;
+            cursor: pointer;
+
+            .player_control_volume_active_bar {
+                width: 100%;
+                height: 8px;
+                background-color: #F361A6;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+}
