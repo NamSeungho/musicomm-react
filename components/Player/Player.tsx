@@ -1,6 +1,8 @@
-import styles from '../Player/Player.module.scss';
-import React, { useState } from 'react';
+import styles from './Player.module.scss';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PlayerProgressBar from './PlayerProgressBar/PlayerProgressBar'
+import * as actions from "../../actions";
 
 enum PROGRESS_BAR_TYPE {
     VOLUME = 'VOLUME',
@@ -12,6 +14,14 @@ interface IProgressParams {
     onChangeValue: (value: number) => void,
     type: PROGRESS_BAR_TYPE
 }
+
+interface IPlayer {
+    musicInfo: actions.IMusicInfo
+}
+
+let player;
+let YT;
+let durationInterval;
 
 function ProgressBar ({ value, onChangeValue, type }: IProgressParams) {
     const classNames = {
@@ -32,7 +42,7 @@ function ProgressBar ({ value, onChangeValue, type }: IProgressParams) {
     );
 }
 
-export default function Player () {
+function Player ({musicInfo}: IPlayer) {
     const [playerTitle, setPlayerTitle] = useState('Dynamite - 방탄소년단 (BTS)');
     const [playerTime, setPlayerTime] = useState('0:05 / 3:43');
 
@@ -45,6 +55,101 @@ export default function Player () {
     });
     const [duration, setDuration] = useState(0);
 
+    const onYouTubeIframeAPIReady = () => {
+        YT = window.YT;
+    };
+
+    const onPlayerReady = (event) => {
+        event.target.playVideo();
+    };
+
+    const onPlayerStateChange = (event) => {
+        if(event.data === YT.PlayerState.ENDED) {
+            setIsPlaying(false);
+
+            if (durationInterval) {
+                clearInterval(durationInterval);
+                durationInterval = null;
+            }
+        } else if(event.data === YT.PlayerState.PLAYING) {
+            setIsPlaying(true);
+
+            if (!durationInterval) {
+                durationInterval = setInterval(() => {
+                    const currentTime = player.getCurrentTime();
+                    const maxTime = player.getDuration();
+
+                    if (!currentTime || !maxTime) {
+                        return;
+                    }
+
+                    const currentDuration = Math.floor(currentTime / maxTime * 100);
+                    const currentMinutes = Math.floor(currentTime / 60);
+                    let currentSeconds = Math.floor(currentTime % 60).toString();
+                    currentSeconds = parseInt(currentSeconds) < 10 ? '0' + currentSeconds : currentSeconds;
+                    const maxMinutes = Math.floor(maxTime / 60);
+                    let maxSeconds = Math.floor(maxTime % 60).toString();
+                    maxSeconds = parseInt(maxSeconds) < 10 ? '0' + maxSeconds : maxSeconds;
+
+                    setDuration(currentDuration);
+                    setPlayerTime(currentMinutes + ':' + currentSeconds + ' / ' + maxMinutes + ':' + maxSeconds);
+                }, 200);
+            }
+        } else if(event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.UNSTARTED || event.data === YT.PlayerState.BUFFERING) {
+            setIsPlaying(false);
+
+            if (durationInterval) {
+                clearInterval(durationInterval);
+                durationInterval = null;
+            }
+        }
+    };
+
+    useEffect(() => {
+        let tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        let firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+    }, []);
+
+    useEffect(() => {
+        if (!musicInfo) {
+            return;
+        }
+
+        if (!player) {
+            player = new YT.Player('player', {
+                playerVars: {
+                    'autoplay': 1,
+                    'controls': 0,
+                    'cc_load_policy': 0,
+                    'disablekb': 1,
+                    'iv_load_policy': 3,
+                    'loop': 1,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'playsinline': 0
+                },
+                videoId: musicInfo.id,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        } else {
+            try {
+                player.loadVideoById(musicInfo.id, 0, 'hd1080');
+            } catch (e) {
+                console.log('아직 음악을 재생할 준비가 되지 않았습니다<br/>다시 한번 시도해주세요');
+            }
+        }
+
+        setPlayerTitle(musicInfo.title + ' - ' + musicInfo.singer);
+    }, [musicInfo]);
+
     const changeVolume = (volume: number) => {
         let isMute = false;
         if (volume === 0) {
@@ -56,11 +161,19 @@ export default function Player () {
             volume: volume
         });
 
-        // this.player.setVolume(volume);
+        player.setVolume(volume);
     };
 
     const togglePlayerStatus = () => {
-        setIsPlaying(!isPlaying);
+        if (!player) {
+            return;
+        }
+
+        if (isPlaying) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+        }
     };
 
     const handleClickPrev = () => {
@@ -133,3 +246,9 @@ export default function Player () {
         </div>
     );
 }
+
+export default connect(
+    state => ({
+        musicInfo: state.musicInfo
+    })
+)(Player);

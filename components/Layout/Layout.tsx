@@ -1,3 +1,4 @@
+import styles from './Layout.module.scss';
 import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 import Aside from '../Aside/Aside'
@@ -32,8 +33,7 @@ export default function Layout ({ children, user }: LayoutProps) {
         <div className="application">
             <Header/>
             <Aside/>
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY"/>
-            <div className='layout'>{children}</div>
+            <div className={styles.layout}>{children}</div>
         </div>
     );
 }
